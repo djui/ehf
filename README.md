@@ -1,4 +1,4 @@
-B# Erlang Function Toolbox
+# Erlang Function Toolbox
 This is a collection of useful Erlang functions that I collected over
 time. It can be used as snippets or be called directly from here.
 

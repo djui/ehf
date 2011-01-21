@@ -20,8 +20,8 @@
         ]).
 
 %% @copyright Programming Erlang - The Pragmatic Bookshelf
-empty([])             -> true;
-empty(X) when list(X) -> false.
+empty([])                -> true;
+empty(X) when is_list(X) -> false.
 
 %% @copyright Programming Erlang - The Pragmatic Bookshelf
 partition(F, L) -> partition(F, L, [], []).
@@ -52,7 +52,7 @@ first([_])   -> [];
 first([H|T]) -> [H|first(T)].
 
 %% @copyright Programming Erlang - The Pragmatic Bookshelf
-duplicates(X) -> find_duplicates(sort(X), []).
+duplicates(X) -> find_duplicates(lists:sort(X), []).
 
 %% @copyright Programming Erlang - The Pragmatic Bookshelf
 find_duplicates([H,H|T], [H|_]=L) -> find_duplicates(T, L);
@@ -71,13 +71,13 @@ find_duplicates([], L)            -> L.
 %% of L.
 %% @copyright Programming Erlang - The Pragmatic Bookshelf
 complete(Str, L) ->
-  case filter(fun(I) -> is_prefix(Str, I) end, L) of
+  case lists:filter(fun(I) -> is_prefix(Str, I) end, L) of
     []   -> error;
     [L1] -> J = remove_prefix(Str, L1), {yes, J};
     L1   ->
       %% L1 is not empty so it's either more or a string
       %% We know that Str is a prefix of all elements in L1
-      L2 = map(fun(I) -> remove_prefix(Str, I) end, L1),
+      L2 = lists:map(fun(I) -> remove_prefix(Str, I) end, L1),
       %% L2 will also not be empty
       %% io:format("L1=~p L2=~p~n",[L1,L2]),
       case longest_common_prefix(L2) of
@@ -96,21 +96,21 @@ longest_common_prefix(L) -> longest_common_prefix(L, []).
 longest_common_prefix(Ls, L) ->
   case have_common_prefix(Ls) of
     {yes, H, Ls1} -> longest_common_prefix(Ls1, [H|L]);
-    no            -> reverse(L)
+    no            -> lists:reverse(L)
   end.
 
 %% @copyright Programming Erlang - The Pragmatic Bookshelf
 have_common_prefix([]) -> no;
 have_common_prefix(L)  ->
-  case any(fun is_empty_list/1, L) of
+  case lists:any(fun empty/1, L) of
     true  -> no;
     false ->
       %% All lists have heads and tails
-      Heads = map(fun(I) -> hd(I) end, L),
+      Heads = lists:map(fun(I) -> hd(I) end, L),
       H = hd(Heads),
-      case all(fun(X) -> hd(X) =:= H end, L) of
+      case lists:all(fun(X) -> hd(X) =:= H end, L) of
         true ->
-          Tails = map(fun(I) -> tl(I) end, L),
+          Tails = lists:map(fun(I) -> tl(I) end, L),
           {yes, H, Tails};
         false -> no
       end

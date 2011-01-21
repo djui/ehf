@@ -23,7 +23,3 @@ deliberate_error(A) ->
 bad_function(A, _) ->
   {ok, Bin} = file:open({abc,123}, A),
   binary_to_list(Bin).
-
-%% @copyright Programming Erlang - The Pragmatic Bookshelf
-deliberate_error1(A) ->
-  bad_function(A, 12).

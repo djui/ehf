@@ -18,7 +18,9 @@
         , term2string/1
         , tolower/1
         , string2value/1
-        , trim/1
+        , string2value/2
+        , rtrim/1
+        , ltrim/1
         , empty/1
         , split/2
         , foreach_word_in_string/2
@@ -36,18 +38,18 @@ skip_blanks([$\s|T]) -> skip_blanks(T);
 skip_blanks(X)       -> X.
     
 %% @copyright Programming Erlang - The Pragmatic Bookshelf
-trim_blanks(X) -> reverse(skip_blanks(reverse(X))).
+trim_blanks(X) -> lists:reverse(skip_blanks(lists:reverse(X))).
     
 %% @copyright Programming Erlang - The Pragmatic Bookshelf
 split_at_char(Str, C) -> split_at_char(Str, C, []).
-split_at_char([C|T], C, L) -> {yes, reverse(L), T};
+split_at_char([C|T], C, L) -> {yes, lists:reverse(L), T};
 split_at_char([H|T], C, L) -> split_at_char(T, C, [H|L]);
 split_at_char([], _, _)    -> no.
 
 %% @doc replace and Key with Key,Val in the association list Old
 %% @copyright Programming Erlang - The Pragmatic Bookshelf
 replace(Key, Val, Old) -> replace(Key, Val, Old, []).
-replace(Key, Val1, [{Key,_Val}|T], L) -> reverse(L, [{Key, Val1}|T]);
+replace(Key, Val1, [{Key,_Val}|T], L) -> lists:reverse(L, [{Key, Val1}|T]);
 replace(Key, Val, [H|T], L)           -> replace(Key, Val, T, [H|L]);
 replace(Key, Val, [], L)              -> [{Key,Val}|L].
 
@@ -60,7 +62,7 @@ make_test_strings(Str, Max, N) ->
 %% @copyright Programming Erlang - The Pragmatic Bookshelf
 test_function_over_substrings(F, Str) ->
   L = make_test_strings(Str),
-  foreach(fun(S) ->
+  lists:foreach(fun(S) ->
               io:format("|~s|~n    => ~p~n", [S, F(S)])
           end, L).
 
@@ -80,11 +82,11 @@ term2string(Term) ->
   lists:flatten(io_lib:format("~p",[Term])).
 
 %% @copyright Programming Erlang - The Pragmatic Bookshelf
-to_lower(Str) -> map(fun downcase_char/1, Str).
+tolower(Str) -> lists:map(fun do_tolower/1, Str).
 
 %% @copyright Programming Erlang - The Pragmatic Bookshelf
-tolower(X) when $A =< X, X =< $Z -> X+ $a - $A;
-tolower(X)                       -> X.
+do_tolower(X) when $A =< X, X =< $Z -> X+ $a - $A;
+do_tolower(X)                       -> X.
 
 %% @copyright Programming Erlang - The Pragmatic Bookshelf
 string2value(Str) ->
@@ -102,13 +104,13 @@ string2value(Str, Bindings0) ->
   {Value, Bindings1}.
 
 %% @copyright Programming Erlang - The Pragmatic Bookshelf
-trim([$\n|T]) -> trim(T);
-trim([$\s|T]) -> trim(T);
-trim([$\t|T]) -> trim(T);
-trim(X) -> X.
+rtrim([$\n|T]) -> rtrim(T);
+rtrim([$\s|T]) -> rtrim(T);
+rtrim([$\t|T]) -> rtrim(T);
+rtrim(X) -> X.
 
 %% @copyright Programming Erlang - The Pragmatic Bookshelf
-trim(X) -> reverse(trim(reverse(X))).
+ltrim(X) -> lists:reverse(rtrim(lists:reverse(X))).
 
 %% @copyright Programming Erlang - The Pragmatic Bookshelf
 empty([$\s|T]) -> empty(T);
@@ -125,7 +127,7 @@ split(F, [H|T], True, False) ->
     true  -> split(F, T, [H|True], False);
     false -> split(F, T, True, [H|False])
   end;
-split(_, [], True, False) -> {reverse(True), reverse(False)}.
+split(_, [], True, False) -> {lists:reverse(True), lists:reverse(False)}.
 
 %% @copyright Programming Erlang - The Pragmatic Bookshelf
 foreach_word_in_string(Str, F) ->
@@ -145,7 +147,7 @@ is_word_char(_)  -> false.
 
 %% @copyright Programming Erlang - The Pragmatic Bookshelf
 get_word([H|T]) ->
-    case isWordChar(H) of
+    case is_word_char(H) of
       true  -> collect_word(T, [H]);
       false -> get_word(T)
     end;
@@ -153,9 +155,9 @@ get_word([]) -> no.
 
 %% @copyright Programming Erlang - The Pragmatic Bookshelf
 collect_word([H|T]=All, L) ->
-  case isWordChar(H) of
+  case is_word_char(H) of
     true  -> collect_word(T, [H|L]);
-    false -> {reverse(L), All}
+    false -> {lists:reverse(L), All}
   end;
 collect_word([], L) ->
-  {reverse(L), []}.
+  {lists:reverse(L), []}.

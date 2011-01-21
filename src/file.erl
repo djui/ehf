@@ -13,7 +13,7 @@
         , file_size_and_type/1
         , ls/1
         , consult/1
-        , unconsult/1
+        , unconsult/2
         , dump/2
         , read_file_as_lines/1
         , out_of_date/2
@@ -57,7 +57,7 @@ file_size_and_type(File) ->
 %% @copyright Programming Erlang - The Pragmatic Bookshelf
 ls(Dir) ->
   {ok, L} = file:list_dir(Dir),
-  map(fun(I) -> {I, file_size_and_type(I)} end, sort(L)).
+  lists:map(fun(I) -> {I, file_size_and_type(I)} end, lists:sort(L)).
 
 %% @copyright Programming Erlang - The Pragmatic Bookshelf
 consult(File) ->
@@ -103,15 +103,15 @@ read_file_as_lines(File) ->
   end.
 
 %% @copyright Programming Erlang - The Pragmatic Bookshelf
-split_into_lines([], _, L) -> reverse(L);
+split_into_lines([], _, L) -> lists:reverse(L);
 split_into_lines(Str, Ln, L) ->
   {Line, Rest} = get_line(Str, []),
   split_into_lines(Rest, Ln+1, [{Ln,Line}|L]).
 
 %% @copyright Programming Erlang - The Pragmatic Bookshelf
-get_line([$\n|T], L) -> {reverse(L), T};
+get_line([$\n|T], L) -> {lists:reverse(L), T};
 get_line([H|T], L)   -> get_line(T, [H|L]);
-get_line([], L)      -> {reverse(L), []}.
+get_line([], L)      -> {lists:reverse(L), []}.
 
 %% @copyright Programming Erlang - The Pragmatic Bookshelf
 out_of_date(In, Out) ->
@@ -174,7 +174,7 @@ eval_file(S, Line, B0) ->
 extract_attribute(File, Key) ->
   case beam_lib:chunks(File,[attributes]) of
     {ok, {attrs, [{attributes,L}]}} ->
-      lookup(Key, L);
+      lists:lookup(Key, L);
     _ -> exit(badFile)
   end.
 
@@ -182,6 +182,6 @@ extract_attribute(File, Key) ->
 %% @copyright Programming Erlang - The Pragmatic Bookshelf
 foreach_word_in_file(File, F) ->
   case file:read_file(File) of
-    {ok, Bin} -> foreachWordInString(binary_to_list(Bin), F);
+    {ok, Bin} -> string:foreach_word_in_string(binary_to_list(Bin), F);
     _         -> void
   end.

@@ -4,6 +4,6 @@
 
 -author("Uwe Dauernheim <uwe@dauernheim.net>").
 
--define(implies(A, B), (not (A)) orelse (B)).
--define(if(Bool, A   ), if Bool -> A; true -> undefined end).
--define(if(Bool, A, B), if Bool -> A; true -> B         end).
+-define(IMPLIES(A, B), (not (A)) orelse (B)).
+-define(IF(Bool, A   ), if Bool -> A; true -> undefined end).
+-define(IF(Bool, A, B), if Bool -> A; true -> B         end).

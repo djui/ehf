@@ -6,7 +6,8 @@
 -author("Uwe Dauernheim <uwe@dauernheim.net>").
 -author("Programming Erlang - The Pragmatic Bookshelf").
 
--export([ safe/1
+-export([ start_distmode/1
+        , safe/1
         , spawn_monitor/3
         , monitor/2
         , keep_alive/2
@@ -18,6 +19,15 @@
         , pmap1/2
         , gather1/3
         ]).
+
+%% @doc Ensure Erlang Port Mapper Daemon is started to enable distributed Erlang
+%% and give the current node a short name (wrapper for erl_distribution:start/1)
+start_distmode(Name) ->
+  [] = os:cmd("epmd -daemon"),
+  case net_kernel:start([Name, shortnames]) of
+    {ok, _Pid} -> ok;
+    {error, {already_started, _Pid}} -> ok
+  end.
 
 %% @copyright Programming Erlang - The Pragmatic Bookshelf
 safe(Fun) ->

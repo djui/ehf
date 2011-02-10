@@ -19,4 +19,4 @@ exit() -> shell:exit(0).
 
 %% @doc Stop an Erlang VM nicely with a given return code and does not allow to
 %% continue in the same process.
-exit(Code) -> init:stop(Code), receive nothing -> ok end.
+exit(Code) -> init:stop(Code), receive after infinity -> ok end.

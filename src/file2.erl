@@ -1,7 +1,7 @@
 %%% @doc Helper functions.
 %%% @author Uwe Dauernheim <uwe@dauernheim.net>
 %%% @author Programming Erlang - The Pragmatic Bookshelf
--module(file).
+-module(file2).
 
 -author("Uwe Dauernheim <uwe@dauernheim.net>").
 -author("Programming Erlang - The Pragmatic Bookshelf").
@@ -10,6 +10,8 @@
         , download/2
         , download_to_file/2
         , download_to_file/3
+        , tempfile/0
+        , tempfile/1
         , file_size_and_type/1
         , ls/1
         , consult/1
@@ -45,6 +47,25 @@ download_to_file(Url, Filename) -> download_to_file(Url, Filename, 30000).
 download_to_file(Url, Filename, Timeout) ->
   Content = download(Url, Timeout),
   file:write_file(Filename, Content).
+
+%% @doc Create unique filename in temp directory. Note: The fiel creation is not
+%% atomically done, thereby prone to race conditions; only a probabilistic
+%% approach.
+%% DIR/[PREFIX-]RANDOM-TIMESTAMP.tmp
+tempfile() -> tempfile("").
+tempfile(Prefix) ->
+  Random = integer_to_list(random:uniform(1000000)),
+  prepare_tempfile("/tmp/", Prefix, Random, ".tmp").
+
+prepare_tempfile(Dir, "", Random, Extension) ->
+  do_tempfile(Dir ++ Random ++ "-", Extension);
+prepare_tempfile(Dir, Prefix, Random, Extension) ->
+  do_tempfile(Dir ++ Prefix ++ "-" ++ Random ++ "-", Extension).
+
+do_tempfile(Filename, Extension) ->
+  Filename2 = test_server:temp_name(Filename) ++ Extension,
+  ok = file:write_file(Filename2, ""),
+  Filename2.
 
 %% @copyright Programming Erlang - The Pragmatic Bookshelf
 -include_lib("kernel/include/file.hrl").

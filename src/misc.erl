@@ -8,6 +8,7 @@
 
 -export([ for/3
         , deliberate_error/1
+        , extract_sourcecode/1
         ]).
 
 %% @copyright Programming Erlang - The Pragmatic Bookshelf
@@ -23,3 +24,11 @@ deliberate_error(A) ->
 bad_function(A, _) ->
   {ok, Bin} = file:open({abc,123}, A),
   binary_to_list(Bin).
+
+%% @doc Extract the source code from a beam file compiled with debug_info.
+extract_sourcecode(Module) ->
+  BeamFile = code:which(Module),
+  AbstractCode = beam_lib:chunks(BeamFile, [abstract_code]),
+  {ok, {Module, [{abstract_code, {raw_abstract_v1, AC}}]}} = AbstractCode,
+  Code = erl_prettypr:format(erl_syntax:form_list(AC)),
+  io:format("~s~n", [Code]).

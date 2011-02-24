@@ -1,17 +1,20 @@
-%%% @doc Helper functions.
+%%% @doc OS Helper functions.
 %%% @author Uwe Dauernheim <uwe@dauernheim.net>
-%%% @author Programming Erlang - The Pragmatic Bookshelf
 -module(os).
 
 -author("Uwe Dauernheim <uwe@dauernheim.net>").
--author("Programming Erlang - The Pragmatic Bookshelf").
 
--export([ exitcode/1
+-export([ cmd/1
         ]).
 
-%% @doc Executes an OS command and returns the error code instead of the 
+-define(NL, "\n").
+
+%% @doc Executes an OS command and returns the return code along with the
 %% standard output text.
-exitcode(Cmd) ->
-  CodeStr = os:cmd(Cmd ++ " > /dev/null 2>&1 ; echo $?"),
-  {Code, _} = string:to_integer(CodeStr),
-  Code.
+cmd(Str) ->
+  Output = os:cmd(Str ++ " ; echo $?"),
+  Lines = string:tokens(Output, ?NL),
+  [Code|ROutput] = lists:reverse(Lines),
+  {Code2, _} = string:to_integer(Code),
+  Output2 = string:join(lists:reverse(ROutput), ?NL),
+  {Code2, Output2}.

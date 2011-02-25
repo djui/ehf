@@ -1,0 +1,7 @@
+{application, ehf,
+  [{description, "EHF: Erlang Helper Functions"},
+   {vsn, "1"},
+   {modules, []},
+   {registered, []},
+   {applications, [kernel, stdlib]},
+   {env, []}]}.

@@ -44,7 +44,7 @@ spawn_monitor(Term, true, Fun) -> spawn(fun() -> starter(Term, Fun) end).
 starter(Term, Fun) ->
   S = self(),
   io:format("process:~p started at:~p ~p~n", [self(), erlang:now(), Term]),
-  Monitor = spawn_link(fun() -> monitor(Term, S) end),
+  Monitor = spawn_link(fun() -> erlang:monitor(Term, S) end),
   receive
     {Monitor, ready} ->
       Fun()

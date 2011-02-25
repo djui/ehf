@@ -8,7 +8,7 @@
 
 -export([ for/3
         , deliberate_error/1
-        , extract_sourcecode/1
+        , otp_version/0
         ]).
 
 %% @copyright Programming Erlang - The Pragmatic Bookshelf

@@ -1,6 +1,6 @@
 %%% @doc Helper functions.
 %%% @author Uwe Dauernheim <uwe@dauernheim.net>
--module(shell).
+-module(shell2).
 
 -author("Uwe Dauernheim <uwe@dauernheim.net>").
 

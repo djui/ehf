@@ -25,14 +25,14 @@ bad_function(A, _) ->
   {ok, Bin} = file:open({abc,123}, A),
   binary_to_list(Bin).
 
-%% @doc Return the OTP major and minor version.
+%% @doc Return the OTP version as tuple: {Major, Cycle, Minor}.
 otp_version() ->
   try
-    ["R" | OTP] = erlang:system_info(otp_release),
-    {Major, Build} = string:to_integer(OTP),
+    [$R | Version] = erlang:system_info(otp_release),
+    {Major, Build} = string:to_integer(Version),
     [Cycle | Minor] = Build,
-    Minor2 = string:to_integer(Minor),
-    {Major, Cycle, Minor2}
+    {Minor2, _} = string:to_integer(Minor),
+    {Major, [Cycle], Minor2}
   catch
     _:_ -> undefined
   end.

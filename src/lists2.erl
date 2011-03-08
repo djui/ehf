@@ -6,7 +6,8 @@
 -author("Uwe Dauernheim <uwe@dauernheim.net>").
 -author("Programming Erlang - The Pragmatic Bookshelf").
 
--export([ empty/1
+-export([ cuttail/2
+        , empty/1
         , partition/2
         , remove_duplicates/1
         , is_prefix/2
@@ -18,6 +19,10 @@
         , qsort/1
         , perms/1
         ]).
+
+%% @doc Cuts of a given length of the tail from a list. Like the opposite of
+%% nthtail. Not too fast on long list.
+cuttail(N, L) -> lists:reverse(lists:nthtail(N, lists:reverse(L))).
 
 %% @copyright Programming Erlang - The Pragmatic Bookshelf
 empty([])                -> true;

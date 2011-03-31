@@ -7,6 +7,7 @@
 -export([ error/1
         , exit/0
         , exit/1
+        , clear/0
         ]).
 
 %% @doc Prints out an error message in colored (red) text. Works only in escript
@@ -20,3 +21,7 @@ exit() -> shell:exit(0).
 %% @doc Stop an Erlang VM nicely with a given return code and does not allow to
 %% continue in the same process.
 exit(Code) -> init:stop(Code), receive after infinity -> ok end.
+
+%% @doc Clears the current shell screen from output garbage.
+-spec(clear() -> ok).
+clear() -> [io:format("~n") || _ <- lists:seq(1, element(2, io:rows()))], ok.

@@ -1,6 +1,6 @@
 %%% @doc Helper functions.
 %%% @author Uwe Dauernheim <uwe@dauernheim.net>
--module(assert).
+-module(ehf_assert).
 
 -author("Uwe Dauernheim <uwe@dauernheim.net>").
 

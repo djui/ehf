@@ -1,6 +1,6 @@
 %%% @doc OS Helper functions.
 %%% @author Uwe Dauernheim <uwe@dauernheim.net>
--module(os2).
+-module(ehf_os).
 
 -author("Uwe Dauernheim <uwe@dauernheim.net>").
 
@@ -40,7 +40,7 @@ cmd2(Str) -> %% Note: This can only be applied on idempotent operations!
   {Code, os:cmd(Str)}.
 
 %% @doc Shuts down an Erlang VM with a given text and 0 as return code.
-exit(S) -> os2:exit(0, S).
+exit(S) -> ehf_os:exit(0, S).
 
 %% @doc Shuts down an Erlang VM with a given text and return code.
 exit(C, S) -> io:format("~s~n", [S]), halt(C).

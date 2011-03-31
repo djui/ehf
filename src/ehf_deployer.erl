@@ -2,7 +2,7 @@
 %%% Files are shipped immediately and as single files.
 %%% @author Uwe Dauernheim <uwe@dauernheim.net>
 %%% @todo Replace hardcoded settings with arguments
--module(deployer).
+-module(ehf_deployer).
 
 -author("Uwe Dauernheim <uwe@dauernheim.net>").
 

@@ -3,41 +3,51 @@
 This is a collection of useful Erlang functions that I collected over
 time. It can be used as snippets or be called directly from here.
 
+To have direct access to these functions in your Erlang shell, adopt and put the
+following lines in the `~/.erlang` file:
+
+    $ cat ~/.erlang
+    EHF_Path = "{{ABSPATH_TO_EHF}}/ebin",
+    code:add_path(EHF_Path),
+    {ok, L} = file:list_dir(EHF_Path),
+    [code:load_file(erlang:list_to_atom(filename:basename(F, ".beam"))) || F <- L].
+
+This adds the modules to the code path and loads them.
 
 ## Categories
 
 Every module is a self-contained categery that I tried to keep close
 to the Erlang/OTP names.
 
-### ehf_assert
+### ehf\_assert
 
-### ehf_beam_lib
+### ehf\_beam\_lib
 
-### ehf_deployer
+### ehf\_deployer
 
-### ehf_dict
+### ehf\_dict
 
-### ehf_erlang
+### ehf\_erlang
 
-### ehf_file
+### ehf\_file
 
-### ehf_inet
+### ehf\_inet
 
-### ehf_lists
+### ehf\_lists
 
-### ehf_math
+### ehf\_math
 
-### ehf_message
+### ehf\_message
 
-### ehf_os
+### ehf\_os
 
-### ehf_process
+### ehf\_process
 
-### ehf_reloader
+### ehf\_reloader
 
-### ehf_shell
+### ehf\_shell
 
-### ehf_string
+### ehf\_string
 
 
 ## Credits / Copyrights

@@ -92,18 +92,18 @@ consult(File) ->
   end.
 
 %% @copyright Programming Erlang - The Pragmatic Bookshelf
-unconsult(File, L) ->
-  {ok, S} = file:open(File, write),
-  lists:foreach(fun(X) -> io:format(S, "~p.~n",[X]) end, L),
-  file:close(S).
-
-%% @copyright Programming Erlang - The Pragmatic Bookshelf
 do_consult(S) ->
   case io:read(S, '') of
     {ok, Term} -> [Term|do_consult(S)];
     eof        -> [];
     Error      -> Error
   end.
+
+%% @copyright Programming Erlang - The Pragmatic Bookshelf
+unconsult(File, L) ->
+  {ok, S} = file:open(File, write),
+  lists:foreach(fun(X) -> io:format(S, "~p.~n",[X]) end, L),
+  file:close(S).
 
 %% @copyright Programming Erlang - The Pragmatic Bookshelf
 dump(File, Term) ->

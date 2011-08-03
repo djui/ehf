@@ -5,13 +5,22 @@
 
 -author("Uwe Dauernheim <uwe@dauernheim.net>").
 
--export([ extract_sourcecode/1
+-export([ ast/1
+        , source/1
+        , print_source/1
         ]).
 
-%% @doc Extract the source code from a beam file compiled with debug_info.
-extract_sourcecode(Module) ->
+%% @doc Extract the abstract code (abstract syntax tree) of a module from a beam
+%% file compiled with debug_info.
+ast(Module) ->
   BeamFile = code:which(Module),
   AbstractCode = beam_lib:chunks(BeamFile, [abstract_code]),
   {ok, {Module, [{abstract_code, {raw_abstract_v1, AC}}]}} = AbstractCode,
-  Code = erl_prettypr:format(erl_syntax:form_list(AC)),
-  io:format("~s~n", [Code]).
+  erl_syntax:form_list(AC).
+
+%% @doc Extract the source code of a module from a beam file compiled with
+%% debug_info.
+source(Module) -> erl_prettypr:format(ast(Module)).
+
+%% @doc Print source code to shell.
+print_source(Module) -> io:format("~s~n", [source(Module)]).

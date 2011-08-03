@@ -7,6 +7,7 @@
 -author("Programming Erlang - The Pragmatic Bookshelf").
 
 -export([ is_str/1
+        , format/1  
         , skip_blanks/1
         , trim_blanks/1
         , split_at_char/2
@@ -32,6 +33,21 @@
 
 %% @doc Lazily checks if a given term might be a string.
 is_str(S) -> ?is_str(S).
+
+%% @doc Pretty-print any string
+format([]) -> "";
+format(S0) when ?is_str(S0) ->
+  S = case hd(lists:reverse(S0)) of
+        $. -> S0;
+        _  -> S0 ++ "."
+      end,
+  {ok,Scan,_} = erl_scan:string(S),
+  {ok,Parse}  = erl_parse:parse_exprs(Scan),
+  Syntax      = erl_syntax:form_list(Parse),
+  PrettyS     = erl_prettypr:format(Syntax),
+  PrettyS;
+format(S) when ?is_str(S) -> format(S ++ ".");
+format(T) -> io:format("~p~n", [T]).
 
 %% @copyright Programming Erlang - The Pragmatic Bookshelf
 skip_blanks([$\s|T]) -> skip_blanks(T);

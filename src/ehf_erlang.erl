@@ -9,6 +9,7 @@
 -export([ for/3
         , deliberate_error/1
         , otp_version/0
+        , fun_to_mfa/1
         ]).
 
 %% @copyright Programming Erlang - The Pragmatic Bookshelf
@@ -36,3 +37,11 @@ otp_version() ->
   catch
     _:_ -> undefined
   end.
+
+%% @doc Convert a fun (lambda) into a tuple with module name, fun name, and
+%% arity count.
+fun_to_mfa(Fun) when is_function(Fun) ->
+  { element(2,erlang:fun_info(Fun, module))
+  , element(2,erlang:fun_info(Fun, name))
+  , element(2,erlang:fun_info(Fun, arity))
+  }.

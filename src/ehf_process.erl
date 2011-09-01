@@ -18,6 +18,7 @@
         , gather/2
         , pmap1/2
         , gather1/3
+        , initial_call/1
         ]).
 
 %% @doc Ensure Erlang Port Mapper Daemon is started to enable distributed Erlang
@@ -154,4 +155,19 @@ gather1(0, _, L) -> L;
 gather1(N, Ref, L) ->
   receive
     {Ref, Ret} -> gather1(N-1, Ref, [Ret|L])
+  end.
+
+%% @doc Return the initial creator of a process. We can do some assumptions
+%% about the initial call. If the initial call is proc_lib:init_p/5 we can find
+%% more information by calling the function proc_lib:translate_initial_call/1.
+initial_call(Info)  ->
+  case fetch(initial_call, Info) of
+    {proc_lib,init_p,5} -> proc_lib:translate_initial_call(Info);
+    ICall               -> ICall
+  end.
+
+fetch(Key, Info) ->
+  case lists:keysearch(Key, 1, Info) of
+    {value, {_, Val}} -> Val;
+    false -> 0
   end.

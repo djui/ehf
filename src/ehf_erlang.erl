@@ -6,11 +6,18 @@
 -author("Uwe Dauernheim <uwe@dauernheim.net>").
 -author("Programming Erlang - The Pragmatic Bookshelf").
 
--export([ for/3
+-export([ p/1
+        , for/3
         , deliberate_error/1
         , otp_version/0
         , fun_to_mfa/1
+        , pid/1
+        , pid/2
+        , e/2
         ]).
+
+%% @doc Short cut to pretty-print a term.
+p(Data) -> io:format("~p~n", [Data]).
 
 %% @copyright Programming Erlang - The Pragmatic Bookshelf
 for(Max, Max, F) -> [F(Max)];
@@ -45,3 +52,17 @@ fun_to_mfa(Fun) when is_function(Fun) ->
   , element(2,erlang:fun_info(Fun, name))
   , element(2,erlang:fun_info(Fun, arity))
   }.
+
+%% @doc Create pid variable type.
+pid(I2,I3)                    -> pid({I2,I3}).
+pid({I1,I2,I3})               -> c:pid(I1,I2,I3);
+pid({I2,I3})                  -> pid({0,I2,I3});
+pid(Pid)  when is_pid(Pid)    -> Pid;
+pid(Atom) when is_atom(Atom)  -> whereis(Atom);
+pid(I2)   when is_integer(I2) -> pid({0,I2,0});
+pid(Str)  when hd(Str)==$<    -> list_to_pid(Str);
+pid(Str)  when is_list(Str)   -> pid("<"++Str++">").
+
+%% @doc Get element N of tuple or list.
+e(N, T) when is_list(T)  -> lists:nth(N, T);
+e(N, T) when is_tuple(T) -> element(N, T).

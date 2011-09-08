@@ -34,5 +34,5 @@ open_safely(File) ->
 %% @doc Creates a unique reference to be used as disk_log ref name.
 unique_ref() ->
   Seed = erlang:tuple_to_list(erlang:now()),
-  Fmt  = io_lib:format("~p_~p_~p", Seed),
+  Fmt  = lists:flatten(io_lib:format("~p_~p_~p", Seed)),
   erlang:list_to_atom(Fmt).

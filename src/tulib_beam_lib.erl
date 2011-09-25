@@ -1,7 +1,7 @@
 %%% @doc Helper functions.
 %%% @author Uwe Dauernheim <uwe@dauernheim.net>
 %%% @author Programming Erlang - The Pragmatic Bookshelf
--module(ehf_beam_lib).
+-module(tulib_beam_lib).
 
 -author("Uwe Dauernheim <uwe@dauernheim.net>").
 

@@ -1,6 +1,6 @@
 %%% @doc Helper functions.
 %%% @author Uwe Dauernheim <uwe@dauernheim.net>
--module(ehf_disk_log).
+-module(tulib_disk_log).
 
 -author("Uwe Dauernheim <uwe@dauernheim.net>").
 

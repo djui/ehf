@@ -1,6 +1,6 @@
 %%% @doc INet Helper functions.
 %%% @author Uwe Dauernheim <uwe@dauernheim.net>
--module(ehf_inet).
+-module(tulib_inet).
 
 -author("Uwe Dauernheim <uwe@dauernheim.net>").
 

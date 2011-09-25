@@ -1,4 +1,4 @@
-# EHF - Erlang Helper Function Toolbox
+# Tulib - Erlang Helper Function Library
 
 This is a collection of useful Erlang functions that I collected over
 time. It can be used as snippets or be called directly from here.
@@ -7,9 +7,9 @@ To have direct access to these functions in your Erlang shell, adopt and put the
 following lines in the `~/.erlang` file:
 
     $ cat ~/.erlang
-    EHF_Path = "{{ABSPATH_TO_EHF}}/ebin",
-    code:add_path(EHF_Path),
-    {ok, L} = file:list_dir(EHF_Path),
+    TulibPath = "{{ABSPATH_TO_TULIB}}/ebin",
+    code:add_path(TulibPath),
+    {ok, L} = file:list_dir(TulibPath),
     [code:load_file(erlang:list_to_atom(filename:basename(F, ".beam"))) || F <- L].
 
 This adds the modules to the code path and loads them.
@@ -19,35 +19,35 @@ This adds the modules to the code path and loads them.
 Every module is a self-contained categery that I tried to keep close
 to the Erlang/OTP names.
 
-### ehf\_assert
+### tulib\_assert
 
-### ehf\_beam\_lib
+### tulib\_beam\_lib
 
-### ehf\_deployer
+### tulib\_deployer
 
-### ehf\_dict
+### tulib\_dict
 
-### ehf\_erlang
+### tulib\_erlang
 
-### ehf\_file
+### tulib\_file
 
-### ehf\_inet
+### tulib\_inet
 
-### ehf\_lists
+### tulib\_lists
 
-### ehf\_math
+### tulib\_math
 
-### ehf\_message
+### tulib\_message
 
-### ehf\_os
+### tulib\_os
 
-### ehf\_process
+### tulib\_process
 
-### ehf\_reloader
+### tulib\_reloader
 
-### ehf\_shell
+### tulib\_shell
 
-### ehf\_string
+### tulib\_string
 
 
 ## Credits / Copyrights
@@ -57,3 +57,4 @@ credits were it's due.
 
  * Programmatic Bookshelf - Introduction to Erlang
  * Mochiweb
+ * Jakob Sievers

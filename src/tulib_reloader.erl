@@ -4,7 +4,7 @@
 %%%
 %%% @doc Erlang module for automatically reloading modified modules during
 %%% development.
--module(ehf_reloader).
+-module(tulib_reloader).
 
 -author("Matthew Dempsky <matthew@mochimedia.com>").
 -author("Uwe Dauenrheim <uwe@dauernheim.net>").

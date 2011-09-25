@@ -1,0 +1,23 @@
+{application, tulib,
+  [{description, "Tulib: Erlang Helper Library"},
+   {vsn, "1"},
+   {modules, [ tulib_assert
+             , tulib_beam_lib
+             , tulib_deployer
+             , tulib_dict
+             , tulib_disk_log
+             , tulib_erlang
+             , tulib_file
+             , tulib_inet
+             , tulib_lists
+             , tulib_math
+             , tulib_message
+             , tulib_os
+             , tulib_process
+             , tulib_reloader
+             , tulib_shell
+             , tulib_string
+             ]},
+   {registered, []},
+   {applications, [kernel, stdlib]},
+   {env, []}]}.

@@ -6,4 +6,6 @@
 
 -define(IMPLIES(A, B), (not (A)) orelse (B)).
 -define(IF(Bool, A   ), if Bool -> A; true -> undefined end).
+-ifdef(OTP_R14).
 -define(IF(Bool, A, B), if Bool -> A; true -> B         end).
+-endif.

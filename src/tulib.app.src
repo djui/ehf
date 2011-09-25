@@ -1,7 +1,8 @@
 {application, tulib,
   [{description, "Tulib: Erlang Helper Library"},
    {vsn, "1"},
-   {modules, [ tulib_assert
+   {modules, [ tulib_application
+             , tulib_assert
              , tulib_beam_lib
              , tulib_deployer
              , tulib_dict

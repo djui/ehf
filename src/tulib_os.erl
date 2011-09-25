@@ -11,7 +11,7 @@
         , exit/2
         ]).
 
--define(NL, "\n").
+-define(NL, io_lib:format("~n")).
 
 %% @doc Executes an OS command and returns the return code along with the
 %% standard output text.

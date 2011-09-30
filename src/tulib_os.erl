@@ -20,15 +20,19 @@
 cmd(Cmd) -> cmd(Cmd, []).
 
 cmd(Cmd, Args) ->
-  Port = erlang:open_port({spawn_executable, Cmd}, [exit_status]),
-  try os_cmd_loop(Port, [])
+  Port = erlang:open_port({spawn_executable, Cmd}, [ use_stdio
+                                                   , exit_status
+                                                   , {args, Args}
+                                                   ]),
+  try
+    cmd_loop(Port, []),
+    erlang:close_port(Port)
   catch _C:R -> {error, R}
-  after erlang:close_port(Port)
   end.
 
 cmd_loop(Port, Data) ->
   receive
-    {Port, {data, Data}}          -> os_cmd_loop(Port, Data ++ NewData);
+    {Port, {data, NewData}}       -> cmd_loop(Port, Data ++ NewData);
     {Port, {exit_status, Status}} -> {ok, Status, Data};
     {'EXIT', Port, Reason}        -> {error, Reason}
   end.

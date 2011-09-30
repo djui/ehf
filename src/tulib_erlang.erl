@@ -83,6 +83,6 @@ system_info(all) ->
           schedulers, schedulers_online, smp_support, system_version,
           system_architecture, threads, thread_pool_size, trace_control_word,
           version, wordsize], %% {allocator, Alloc}, {allocator_sizes, Alloc}
-  lists:map(system_info/1, Keys);
+  lists:map(fun system_info/1, Keys);
 system_info(Key) ->
   erlang:system_info(Key).

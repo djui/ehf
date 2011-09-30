@@ -11,6 +11,7 @@
         , cmd3/1
         , exit/1
         , exit/2
+        , cpus/0
         ]).
 
 -define(NL, io_lib:format("~n")).
@@ -63,3 +64,25 @@ exit(S) -> tulib_os:exit(0, S).
 
 %% @doc Shuts down an Erlang VM with a given text and return code.
 exit(C, S) -> io:format("~s~n", [S]), halt(C).
+
+%% Returns the amount of logical CPUs. Either using erlang:system_info/1 or
+%% guessing.
+cpus() ->
+  case erlang:system_info({cpu_topology, detected}) of
+    undefined ->
+      case os:type() of
+        {unix, darwin} ->
+          S = os:cmd("sysctl -n hw.ncpu"),
+          case string:to_integer(S) of
+            {error, _} -> undefined;
+            {N,     _} -> N
+          end;
+        _ -> undefined
+      end;
+    LevelEntryList ->
+      Filter = fun({processor, {logical, _}}) -> true;
+                  (_) -> false
+               end,
+      LogicalCpuIds = lists:filter(Filter, LevelEntryList),
+      length(LogicalCpuIds)
+  end.

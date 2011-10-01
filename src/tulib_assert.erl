@@ -9,3 +9,5 @@
 -ifdef(OTP_R14).
 -define(IF(Bool, A, B), if Bool -> A; true -> B         end).
 -endif.
+
+-define(is_dict(D), (is_tuple(D) andalso element(1, D) =:= dict)).

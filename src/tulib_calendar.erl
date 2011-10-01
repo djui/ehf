@@ -1,6 +1,6 @@
 %%% @doc Helper functions.
 %%% @author Uwe Dauernheim <uwe@dauernheim.net>
--module(tulib_date).
+-module(tulib_calendar).
 
 -author("Uwe Dauernheim <uwe@dauernheim.net>").
 

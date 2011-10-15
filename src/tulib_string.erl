@@ -6,33 +6,37 @@
 -author("Uwe Dauernheim <uwe@dauernheim.net>").
 -author("Programming Erlang - The Pragmatic Bookshelf").
 
--export([ is_str/1
+-export([ empty/1
+        , fmt/2
+        , foreach_word_in_string/2
         , format/1  
-        , skip_blanks/1
-        , trim_blanks/1
-        , split_at_char/2
-        , replace/3
+        , get_word/1
+        , is_str/1
+        , is_word_char/1
+        , ltrim/1
         , make_test_strings/1
-        , test_function_over_substrings/2
         , ndots/1
+        , replace/3
+        , rtrim/1
+        , skip_blanks/1
+        , split/2
+        , split_at_char/2
         , string2term/1
-        , term2string/1
-        , tolower/1
         , string2value/1
         , string2value/2
-        , rtrim/1
-        , ltrim/1
-        , empty/1
-        , split/2
-        , foreach_word_in_string/2
-        , is_word_char/1
-        , get_word/1
+        , test_function_over_substrings/2
+        , term2string/1
+        , tolower/1
+        , trim_blanks/1
         ]).
 
 -define(is_str(S), (S == [] orelse is_integer(hd(S)))).
 
 %% @doc Lazily checks if a given term might be a string.
 is_str(S) -> ?is_str(S).
+
+%% doc Formats a string and flatten it to get a valid list string.
+fmt(Msg, Data) -> lists:flatten(io_lib:format(Msg, Data)).
 
 %% @doc Pretty-print any string
 format([]) -> "";

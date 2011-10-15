@@ -7,6 +7,8 @@
 -export([ ensure_started/1
         , get_env/2
         , get_env/3
+        , priv_dir/0
+        , priv_file/1
         ]).
 
 %% @doc Ensure that a given application is started.
@@ -33,3 +35,13 @@ get_env(Application, Key, Default) ->
     {ok, Defined} -> Defined;
     undefined     -> Default
   end.
+
+%% @doc Returns the priv directory path for the current application.
+priv_dir() ->
+  {ok, App} = application:get_application(),
+  code:priv_dir(App).
+
+%% @doc Returns the path of a file residing in the priv directory path for the
+%% current application.
+priv_file(File) ->
+  filename:join([priv_dir(), File]).

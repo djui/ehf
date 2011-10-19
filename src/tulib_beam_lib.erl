@@ -1,19 +1,21 @@
 %%% @doc Helper functions.
 %%% @author Uwe Dauernheim <uwe@dauernheim.net>
 %%% @author Programming Erlang - The Pragmatic Bookshelf
+%%% @author Erlang/OTP source
 -module(tulib_beam_lib).
 
 -author("Uwe Dauernheim <uwe@dauernheim.net>").
 
--export([ src/1
+-export([ ast/1
         , beam/1
-        , ast/1
-        , source/1
-        , print_source/1
-        , export_all/1
-        , dflags/1
         , cflags/0
         , cflags/1
+        , dflags/1
+        , export_all/1
+        , make_term/1
+        , print_source/1
+        , source/1
+        , src/1
         ]).
 
 %% @doc Return file path location to source file.
@@ -26,9 +28,16 @@ beam(Module) -> code:which(Module).
 %% file compiled with debug_info.
 ast(Module) ->
   BeamFile = code:which(Module),
-  AbstractCode = beam_lib:chunks(BeamFile, [abstract_code]),
-  {ok, {Module, [{abstract_code, {raw_abstract_v1, AC}}]}} = AbstractCode,
-  erl_syntax:form_list(AC).
+  AbstractCodeChunk = beam_lib:chunks(BeamFile, [abstract_code]),
+  AbstractCode = case AbstractCodeChunk of
+                   {ok, {Module, [{abstract_code, {raw_abstract_v1, AC}}]}} ->
+                     AC;
+                   {ok, {Module, [{abstract_code, no_abstract_node}]}} ->
+                     throw({no_abstract_code, maybe_compiled_without_debug});
+                   _ ->
+                     throw(unknown_error)
+                 end,
+  erl_syntax:form_list(AbstractCode).
 
 %% @doc Extract the source code of a module from a beam file compiled with
 %% debug_info.
@@ -67,3 +76,19 @@ cflags() ->
   {ok,Tokens,_} = erl_scan:string(Opts0),
   {ok, Term} = erl_parse:parse_term(Tokens ++ [{dot,1}]),
   Term.
+
+%% @doc Makes an Erlang term given a string.
+%% @reference Taken from std_lib/src/erl_compile.erl
+make_term(Str) -> 
+  case erl_scan:string(Str) of 
+    {ok,Tokens,_} ->
+      case erl_parse:parse_term(Tokens ++ [{dot,1}]) of
+        {ok, Term}            -> Term;
+        {error, {_,_,Reason}} ->
+          io:format("~s: ~s~n", [Reason, Str]),
+          throw(error)
+      end;
+    {error,{_,_,Reason},_} ->
+      io:format("~s: ~s~n", [Reason, Str]),
+      throw(error)
+  end.

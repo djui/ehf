@@ -18,6 +18,7 @@
              , tulib_reloader
              , tulib_shell
              , tulib_string
+             , tulib_types
              ]},
    {registered, []},
    {applications, [kernel, stdlib]},

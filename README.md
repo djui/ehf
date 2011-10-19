@@ -49,6 +49,8 @@ to the Erlang/OTP names.
 
 ### tulib\_string
 
+### tulib\_types
+
 
 ## Credits / Copyrights
 
@@ -56,5 +58,6 @@ Either I found them or wrote them myself. So I tried to keep
 credits were it's due.
 
  * Programmatic Bookshelf - Introduction to Erlang
+ * Erlang/OTP team
  * Mochiweb
  * Jakob Sievers

@@ -1,5 +1,6 @@
 %%% @doc Helper functions.
 %%% @author Uwe Dauernheim <uwe@dauernheim.net>
+%%% @todo Check if erl_lint.erl can help out
 -module(tulib_types).
 
 -author("Uwe Dauernheim <uwe@dauernheim.net>").
@@ -27,7 +28,7 @@ check(Value, TModule, TName) ->
 resolve(Name, Types) -> traverse(form(Name, Types), Types).
 
 traverse({type,Line,Type,SubTypes}, Types) ->
-  case lists:member(Type, builtin_types()) of
+  case lists:member(Type, builtin_types() ++ var_arity_types()) of
     true  -> ResTypes = lists:map(fun(T) -> traverse(T, Types) end, SubTypes),
              {type,Line,Type,ResTypes};
     false -> resolve(Type, Types)
@@ -45,45 +46,65 @@ from_term(Term) -> erl_types:t_from_term(Term).
 
 form(Name, Types) -> {_,TypeForm,[]} = dict:fetch({type,Name}, Types), TypeForm.
 
-%% @doc FIXME This list is probably to greedy.
+%% @doc Taken from erl_lint:default_types/0.
 builtin_types() ->
   [ any
+  , array
+  , arity
   , atom
   , binary
+  , bitstring
+  , bool
   , boolean
   , byte
   , char
+  , dict
+  , digraph
   , float
   , 'fun'
   , function
+  , gb_set
+  , gb_tree
   , identifier
   , integer
+  , iodata
   , iolist
   , list
-  , matchstate
+%%, matchstate
   , maybe_improper_list
-  , module
   , mfa
+  , module
   , neg_integer
-  , node
   , nil
   , no_return
+  , node
   , non_neg_integer
   , none
+  , nonempty_list
+  , nonempty_improper_list
+  , nonempty_maybe_improper_list
   , nonempty_string
   , number
-  , opaque
+%%, opaque
   , pid
   , port
   , pos_integer
-  , product
+  , queue
+  , range
   , reference
-  , remote
+%%, remote
+  , set
   , string
   , term
   , timeout
-  , tuple
-  , tuple_set
+%%, tuple_set
+%%, var
+  ].
+
+%% @doc Taken from erl_lint:is_var_arity_type/1.
+var_arity_types() ->
+  [ tuple
+  , product
   , union
-  , var
+  , record
   ].

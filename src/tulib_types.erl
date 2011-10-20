@@ -1,7 +1,7 @@
 %%% @doc Type helper functions.
 %%% How to use: Write a module `foo` with a user-define type `bar` and export
 %%% with debug_info when compiling. Then assign a variable and check if it
-%%% complies to type `foo`.
+%%% complies to type `t`.
 %%%
 %%%     -module(foo).
 %%%     -compile([debug_info]).

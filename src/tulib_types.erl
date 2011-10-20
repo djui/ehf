@@ -1,4 +1,24 @@
-%%% @doc Helper functions.
+%%% @doc Type helper functions.
+%%% How to use: Write a module `foo` with a user-define type `bar` and export
+%%% with debug_info when compiling. Then assign a variable and check if it
+%%% complies to type `foo`.
+%%%
+%%%     -module(foo).
+%%%     -compile([debug_info]).
+%%%
+%%%     -export([test/0]).
+%%%
+%%%     -type t()  :: [t2()].
+%%%     -type t2() :: [{atom(), [t3()]}].
+%%%     -type t3() :: pos_integer().
+%%%
+%%%     test() ->
+%%%       V = [{test, [1,2,3]}],
+%%%       V = [{test, [1,2,3]}],
+%%%       true = tulib_types:check(V, {?MODULE,bar}),
+%%%       true = tulib_types:check(V, {foo,bar}),
+%%%       true = tulib_types:check(V, bar).
+%%%
 %%% @author Uwe Dauernheim <uwe@dauernheim.net>
 %%% @todo Check if {erl_lint,erl_types,dialyzer_utils} can help out
 -module(tulib_types).
@@ -6,6 +26,7 @@
 -author("Uwe Dauernheim <uwe@dauernheim.net>").
 
 -export([ check/2
+        , type/2
         ]).
 
 %%% Code =======================================================================
@@ -17,12 +38,12 @@ check(V, MN) when is_atom(MN) ->
     [Name]      -> check(V, ?MODULE,           list_to_atom(Name))
   end.
 
-check(Value, TModule, TName) ->
+check(Value, TM, TN) -> erl_types:t_is_instance(from_term(Value), type(TN, TM)).
+
+type(TName, TModule) ->
   Types = from_module(TModule),
   Type  = resolve(TName, Types),
-  I     = from_form(Type),
-  T     = from_term(Value),
-  erl_types:t_is_instance(T, I).
+  from_form(Type).
 
 %%% Internals ------------------------------------------------------------------
 resolve(Name, Types) -> traverse(form(Name, Types), Types).

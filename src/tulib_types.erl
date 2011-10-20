@@ -1,6 +1,6 @@
 %%% @doc Helper functions.
 %%% @author Uwe Dauernheim <uwe@dauernheim.net>
-%%% @todo Check if erl_lint.erl can help out
+%%% @todo Check if {erl_lint,erl_types,dialyzer_utils} can help out
 -module(tulib_types).
 
 -author("Uwe Dauernheim <uwe@dauernheim.net>").

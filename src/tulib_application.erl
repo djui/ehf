@@ -9,6 +9,7 @@
         , get_env/3
         , priv_dir/0
         , priv_file/1
+        , priv_file/2
         ]).
 
 %% @doc Ensure that a given application is started.
@@ -45,3 +46,8 @@ priv_dir() ->
 %% current application.
 priv_file(File) ->
   filename:join([priv_dir(), File]).
+
+%% @doc Returns the path of a file residing in the priv directory path for a
+%% given application.
+priv_file(Application, File) ->
+  filename:join([code:priv_dir(Application), File]).

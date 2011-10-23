@@ -28,6 +28,7 @@
         , term2string/1
         , tolower/1
         , trim_blanks/1
+        , s/1
         ]).
 
 -define(is_str(S), (S == [] orelse is_integer(hd(S)))).
@@ -181,3 +182,7 @@ collect_word([H|T]=All, L) ->
   end;
 collect_word([], L) ->
   {lists:reverse(L), []}.
+
+%% @doc Appends plural 's' when approriated (and english).
+s(1)                    -> "";
+s(N) when is_integer(N) -> "s".

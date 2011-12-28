@@ -1,8 +1,10 @@
 %%% @doc Helper functions.
 %%% @author Uwe Dauernheim <uwe@dauernheim.net>
+%%% @author Basho Technologies
 -module(tulib_application).
 
 -author("Uwe Dauernheim <uwe@dauernheim.net>").
+-author("Basho Technologies").
 
 -export([ ensure_started/1
         , get_env/2
@@ -13,13 +15,19 @@
         ]).
 
 %% @doc Ensure that a given application is started.
+%% @credits Basho Technologies
 ensure_started(Application) ->
-  case application:start(Application) of
-    ok ->
-      ok;
-    {error, {already_started, Application}} ->
-      ok
-  end.
+  ensure_started(Application, application:start(Application)).
+
+ensure_started(_Application, ok) ->
+  ok;
+ensure_started(_Application, {error, {already_started, _Application}}) ->
+  ok;
+ensure_started(Application, {error, {not_started, Dependency}}) ->
+  ok = ensure_started(Dependency),
+  ensure_started(Application);
+ensure_started(Application, {error, Reason}) ->
+  erlang:error({app_start_failed, Application, Reason}).
 
 %% @doc Get environment values given a key from the current application,
 %% otherwise use a default value.

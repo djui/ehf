@@ -76,7 +76,8 @@ print_fun(Fun) when is_function(Fun) ->
   case Type of
     external ->
       try
-        Form = find_fun(M, F, A),
+        Form0 = find_fun(M, F, A),
+        Form = [{'fun',1,{clauses,Form0}}],
         print_form(Form)
       catch T:R -> throw({T,R})
       end;

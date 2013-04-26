@@ -1,6 +1,6 @@
 %%% @doc Helper functions.
 %%% @author Uwe Dauernheim <uwe@dauernheim.net>
--module(tulib_shell).
+-module(ehf_shell).
 
 -author("Uwe Dauernheim <uwe@dauernheim.net>").
 
@@ -14,11 +14,11 @@
 %% or when using the -oldshell flag.
 error(Msg) ->
   io:format("[\033[01;31mERROR\033[00m] ~s~n", [Msg]),
-  tulib_shell:exit(1).
+  ehf_shell:exit(1).
 
 %% @doc Stop an Erlang VM nicely with a the return code 0 and does not allow to
 %% continue in the same process.
-exit() -> tulib_shell:exit(0).
+exit() -> ehf_shell:exit(0).
 
 %% @doc Stop an Erlang VM nicely with a given return code and does not allow to
 %% continue in the same process.

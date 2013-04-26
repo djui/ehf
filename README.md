@@ -1,4 +1,4 @@
-# Tulib - Erlang Helper Function Library
+# EHF - Erlang Helper Function Library
 
 This is a collection of useful Erlang functions that I collected over
 time. It can be used as snippets or be called directly from here.
@@ -7,50 +7,17 @@ To have direct access to these functions in your Erlang shell, adopt and put the
 following lines in the `~/.erlang` file:
 
     $ cat ~/.erlang
-    TulibPath = "{{ABSPATH_TO_TULIB}}/ebin",
-    code:add_path(TulibPath),
-    {ok, L} = file:list_dir(TulibPath),
+    EHFPath = "{{ABSPATH_TO_EHF}}/ebin",
+    code:add_path(EHFPath),
+    {ok, L} = file:list_dir(EHFPath),
     [code:load_file(erlang:list_to_atom(filename:basename(F, ".beam"))) || F <- L].
-
+    
 This adds the modules to the code path and loads them.
 
 ## Categories
 
 Every module is a self-contained categery that I tried to keep close
 to the Erlang/OTP names.
-
-### tulib\_assert
-
-### tulib\_beam\_lib
-
-### tulib\_deployer
-
-### tulib\_dict
-
-### tulib\_erlang
-
-### tulib\_file
-
-### tulib\_inet
-
-### tulib\_lists
-
-### tulib\_math
-
-### tulib\_message
-
-### tulib\_os
-
-### tulib\_process
-
-### tulib\_reloader
-
-### tulib\_shell
-
-### tulib\_string
-
-### tulib\_types
-
 
 ## Credits / Copyrights
 
@@ -61,3 +28,4 @@ credits were it's due.
  * Erlang/OTP team
  * Mochiweb
  * Jakob Sievers
+ 

@@ -15,13 +15,13 @@
 %%%     test() ->
 %%%       V = [{test, [1,2,3]}],
 %%%       V = [{test, [1,2,3]}],
-%%%       true = tulib_types:check(V, {?MODULE,bar}),
-%%%       true = tulib_types:check(V, {foo,bar}),
-%%%       true = tulib_types:check(V, bar).
+%%%       true = ehf_types:check(V, {?MODULE,bar}),
+%%%       true = ehf_types:check(V, {foo,bar}),
+%%%       true = ehf_types:check(V, bar).
 %%%
 %%% @author Uwe Dauernheim <uwe@dauernheim.net>
 %%% @todo Check if {erl_lint,erl_types,dialyzer_utils} can help out
--module(tulib_types).
+-module(ehf_types).
 
 -author("Uwe Dauernheim <uwe@dauernheim.net>").
 

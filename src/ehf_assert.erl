@@ -1,7 +1,7 @@
 %%% @doc Composable error handling.
 %%% @author Uwe Dauernheim <uwe@dauernheim.net>
 %%% @author Jakob Siever <canned.primat.es@gmail.com>
--module(tulib_assert).
+-module(ehf_assert).
 
 -author("Uwe Dauernheim <uwe@dauernheim.net>").
 -auhtor("Jakob Siever <canned.primat.es@gmail.com>").

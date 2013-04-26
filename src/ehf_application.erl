@@ -1,7 +1,7 @@
 %%% @doc Helper functions.
 %%% @author Uwe Dauernheim <uwe@dauernheim.net>
 %%% @author Basho Technologies
--module(tulib_application).
+-module(ehf_application).
 
 -author("Uwe Dauernheim <uwe@dauernheim.net>").
 -author("Basho Technologies").

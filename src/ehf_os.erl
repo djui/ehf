@@ -14,19 +14,20 @@
         , cpus/0
         ]).
 
--define(NL, io_lib:format("~n")).
+-define(NL, io_lib:format("~n", [])).
 
 %% @doc Running an external command as port along with the return code.
 cmd(Cmd) -> cmd(Cmd, []).
 
 cmd(Cmd, Args) ->
-  Port = erlang:open_port({spawn_executable, Cmd}, [ use_stdio
-                                                   , exit_status
-                                                   , {args, Args}
-                                                   ]),
+  CmdArgs = [ use_stdio
+            , exit_status
+            , {args, Args}
+            ],
+  Port = erlang:open_port({spawn_executable, Cmd}, CmdArgs),
   try
     cmd_loop(Port, []),
-    erlang:close_port(Port)
+    erlang:port_close(Port)
   catch _C:R -> {error, R}
   end.
 

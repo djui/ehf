@@ -195,7 +195,7 @@ eval_file(S, Line, B0) ->
 extract_attribute(File, Key) ->
   case beam_lib:chunks(File,[attributes]) of
     {ok, {attrs, [{attributes,L}]}} ->
-      lists:lookup(Key, L);
+      proplists:lookup(Key, L);
     _ -> exit(badFile)
   end.
 
@@ -203,6 +203,6 @@ extract_attribute(File, Key) ->
 %% @copyright Programming Erlang - The Pragmatic Bookshelf
 foreach_word_in_file(File, F) ->
   case file:read_file(File) of
-    {ok, Bin} -> string:foreach_word_in_string(binary_to_list(Bin), F);
+    {ok, Bin} -> ehf_string:foreach_word_in_string(binary_to_list(Bin), F);
     _         -> void
   end.
